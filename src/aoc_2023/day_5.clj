@@ -49,3 +49,21 @@
   (->> seeds
        (map #(seed->location % mappings))
        (reduce min)))
+
+;; Part 2
+
+(defn parse-seeds-range [seeds-str]
+  (let [seeds-pairs (partition 2 (parse-seeds seeds-str))
+        seeds-ranges (map #(range (first %)
+                                  (+ (first %) (second %)))
+                          seeds-pairs)
+        seeds (flatten seeds-ranges)]
+    seeds))
+
+;; Too slow...
+(let [[seeds-str & map-strs] (str/split input #"(\n\n)")
+      seeds (parse-seeds-range seeds-str)
+      mappings (apply merge (map parse-map-str map-strs))]
+  (->> seeds
+       (map #(seed->location % mappings))
+       (reduce min)))
