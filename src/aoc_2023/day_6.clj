@@ -28,3 +28,22 @@
      (map winning-distances)
      (map count)
      (reduce *))
+
+
+;; Part 2
+
+(defn parse-input-2 [input]
+  (let [[time distance] (->> input
+                             str/split-lines
+                             (map #(-> %
+                                       (str/split #"(: +)")
+                                       second
+                                       (str/replace " " "")
+                                       parse-long)))]
+    {:time     time
+     :distance distance}))
+
+(->> input
+     parse-input-2
+     winning-distances
+     count)
